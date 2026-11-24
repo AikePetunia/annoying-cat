@@ -1,5 +1,7 @@
 # Annoying-cat !
 
+<img src="preview.png" alt="preview" />
+
 *When your cat approaches your desktop and you can't see what's going on...*
 
 **Annoying Cat** is a browser extension designed to cure digital addiction and break the infinite scrolling loop. Set strict daily or hourly limits for posts, tweets, and shorts, filter your feeds, and cut through the noise on social media. 
