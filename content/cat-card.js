@@ -55,8 +55,8 @@ function isDarkTheme() {
 function catIcon() {
   const img = document.createElement("img");
   const color = isDarkTheme() ? "white" : "black";
-  img.src = browser.runtime.getURL(`icons/disturbing-cat-32-${color}.avif`);
-  img.alt = "Disturbing Cat";
+  img.src = browser.runtime.getURL(`icons/annoying-cat-32-${color}.avif`);
+  img.alt = "Annoying Cat";
   return img;
 }
 

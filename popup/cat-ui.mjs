@@ -16,8 +16,8 @@ const socialMediaIcon = {
   twIconPath: "../icons/social-media/tw.avif",
   igIconPath: "../icons/social-media/ig.avif",
   ytIconPath: "../icons/social-media/yt.avif",
-  defaultBlack: "../icons/disturbing-cat-32-black.avif",
-  defaultWhite: "../icons/disturbing-cat-32-white.avif",
+  defaultBlack: "../icons/annoying-cat-32-black.avif",
+  defaultWhite: "../icons/annoying-cat-32-white.avif",
 };
 
 const element = {

@@ -6,21 +6,21 @@ let debounceTimeout = null;
 
 async function init() {
   const domain = window.location.hostname;
-  let modulePath = null;
+  let loadModule = null;
 
   switch (true) {
     case domain.includes("x.com") || domain.includes("twitter.com"):
-      modulePath = "content/twitter.js";
+      loadModule = () => import(browser.runtime.getURL("content/twitter.js"));
       platformKey = "twitter";
       break;
 
     case domain.includes("instagram.com") || domain.includes("instagr.am"):
-      modulePath = "content/instagram.js";
+      loadModule = () => import(browser.runtime.getURL("content/instagram.js"));
       platformKey = "instagram";
       break;
 
     case domain.includes("youtube.com") || domain.includes("youtu.be"):
-      modulePath = "content/youtube.js";
+      loadModule = () => import(browser.runtime.getURL("content/youtube.js"));
       platformKey = "youtube";
       break;
   }
@@ -32,9 +32,8 @@ async function init() {
   const early = await browser.storage.local.get("catSettings");
   applyBlockSetting(early?.catSettings);
 
-  if (modulePath) {
-    const moduleUrl = browser.runtime.getURL(modulePath);
-    platformModule = await import(moduleUrl);
+  if (loadModule) {
+    platformModule = await loadModule();
   }
 
   const cache = await browser.storage.local.get("catSettings");

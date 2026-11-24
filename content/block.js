@@ -50,8 +50,8 @@ function buildScreen(showSuggestion, text) {
   screen.dataset.text = text;
 
   const img = document.createElement("img");
-  img.src = browser.runtime.getURL("icons/disturbing-cat-32-white.avif");
-  img.alt = "Disturbing Cat";
+  img.src = browser.runtime.getURL("icons/annoying-cat-32-white.avif");
+  img.alt = "Annoying Cat";
 
   const title = document.createElement("h1");
   title.textContent = "The cat is sitting on your keyboard.";

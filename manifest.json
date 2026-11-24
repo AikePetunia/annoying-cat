@@ -1,20 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "disturbing-cat",
+  "name": "annoying-cat",
   "version": "0.1",
   "description": "When your cat approaches to your desktop and you can't see what's going on...",
-  "homepage_url": "https://github.com/AikePetunia/disturbing-cat",
+  "homepage_url": "https://github.com/AikePetunia/annoying-cat",
   "permissions": ["activeTab", "storage", "tabs"],
   "action": {
-    "default_icon": "icons/disturbing-cat-32-white.avif",
+    "default_icon": "icons/annoying-cat-32-white.avif",
     "theme_icons": [
       {
-        "light": "icons/disturbing-cat-32-black.avif",
-        "dark": "icons/disturbing-cat-32-white.avif",
+        "light": "icons/annoying-cat-32-black.avif",
+        "dark": "icons/annoying-cat-32-white.avif",
         "size": 32
       }
     ],
-    "default_title": "Disturbing-cat !",
+    "default_title": "Annoying-cat !",
     "default_popup": "popup/cat-ui.html"
   },
   "content_scripts": [
@@ -35,11 +35,19 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["content/*.js", "content/utils/*.js", "icons/disturbing-cat-32-*.avif"],
+      "resources": ["content/*.js", "content/utils/*.js", "icons/annoying-cat-32-*.avif"],
       "matches": ["*://*/*"]
     }
   ],
   "developer": {
     "name": "Aike"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "annoying-cat@aike.tech",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
   }
 }
