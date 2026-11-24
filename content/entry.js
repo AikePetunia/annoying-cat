@@ -1,5 +1,7 @@
 let activeSettings = null;
 let platformModule = null;
+let platformKey = null; // "twitter" | "instagram" | "youtube": settings key + module export name
+let blockModule = null;
 let debounceTimeout = null;
 
 async function init() {
@@ -9,16 +11,26 @@ async function init() {
   switch (true) {
     case domain.includes("x.com") || domain.includes("twitter.com"):
       modulePath = "content/twitter.js";
+      platformKey = "twitter";
       break;
 
     case domain.includes("instagram.com") || domain.includes("instagr.am"):
       modulePath = "content/instagram.js";
+      platformKey = "instagram";
       break;
 
     case domain.includes("youtube.com") || domain.includes("youtu.be"):
       modulePath = "content/youtube.js";
+      platformKey = "youtube";
       break;
   }
+
+  // load the blocker before the platform module so the page is covered as early as possible
+  const block = await import(browser.runtime.getURL("content/block.js"));
+  if (block.isBlockedDomain(domain)) blockModule = block;
+
+  const early = await browser.storage.local.get("catSettings");
+  applyBlockSetting(early?.catSettings);
 
   if (modulePath) {
     const moduleUrl = browser.runtime.getURL(modulePath);
@@ -37,18 +49,30 @@ async function init() {
   startObserver();
 }
 
+function isBlocking(settings) {
+  return Boolean(blockModule && settings?.enabled && settings?.blocksocialmedia);
+}
+
+function applyBlockSetting(settings) {
+  blockModule?.applyBlock(isBlocking(settings), { suggestions: Boolean(settings?.suggestions) });
+}
+
 function applySettings(settings) {
   activeSettings = settings;
   const enabled = Boolean(settings?.enabled);
 
+  applyBlockSetting(settings);
+
   applyGrayScale(enabled && settings.grayscale);
 
-  if (platformModule?.twitter) {
-    platformModule.twitter(
+  const applyPlatform = platformModule?.[platformKey];
+  if (applyPlatform) {
+    applyPlatform(
       enabled
         ? {
-            ...settings.twitter,
+            ...settings[platformKey],
             keywords: settings.keywords,
+            keywordsEnabled: settings.keywordsEnabled ?? true,
             suggestions: settings.suggestions,
           }
         : null
@@ -56,13 +80,19 @@ function applySettings(settings) {
   }
 }
 
-// for changes on the dom
 function startObserver() {
   const target = document.body || document.documentElement;
   if (!target) return;
 
   const observer = new MutationObserver(() => {
     if (!activeSettings?.enabled) return;
+
+    if (isBlocking(activeSettings)) {
+      // keep the overlay alive if the SPA wipes it, and silence autoplaying stuff behind it
+      applyBlockSetting(activeSettings);
+      blockModule.pauseMedia();
+      return;
+    }
 
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {

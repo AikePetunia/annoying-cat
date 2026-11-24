@@ -25,6 +25,10 @@
     <div class="separator"></div>
     <div class="global-settings hidden">
       <h5>Global settings</h5>
+      <div>         
+        <input type="checkbox" id="global-blocksocialmedia" name="blocksocialmedia" />
+        <label for="global-blocksocialmedia">Completly block All social media <span class="g__block-not-here hidden">(this doesn't affect here)</span></label>
+      </div>
       <div>
         <input type="checkbox" id="global-grayscale" name="grayscale" />
         <label for="global-grayscale">Grayscale mode</label>
@@ -34,17 +38,14 @@
         <input type="checkbox" id="global-cat-suggestions" name="suggestions" />
         <label for="global-cat-suggestions">Allow suggestions from the cat</label>
       </div>
-
-      <!--
-      <div>
-        <input type="checkbox" id="global-focus-hours" name="focus" />
-        <label for="global-focus-hours">Allow focus hours</label>
-      </div>
-      -->
     </div>
 
      <!-- Keywords -->
      <div class="kw__container hidden">
+      <div>
+        <input type="checkbox" id="global-keywords-enabled" name="keywordsEnabled" />
+        <label for="global-keywords-enabled">Hide content that contains these words:</label>
+      </div>
       <div class="kw__input">
         <input type="text" name="" id="inp1">
         <button id="create">Add keyword</button>
@@ -62,16 +63,6 @@
     <!-- Twitter / X -->
     <div class="sm__configs twitter hidden">
       <h5> Twitter Settings </h5>
-      <div>
-        <input type="checkbox" id="allowed-posts-tw" name="twitter.allowedListEnabled" />
-        <label for="allowed-posts-tw">See posts from allowed list</label>
-      </div>
-
-      <div>
-        <input type="checkbox" id="keywords-tw" name="twitter.allowKeywords" />
-        <label for="keywords-tw">Allow keywords</label>
-      </div>
-
       <div>
         <input type="checkbox" id="only-following-tw" name="twitter.onlyFollowing" />
         <label for="only-following-tw">Only following</label>
@@ -110,11 +101,6 @@
     <div class="sm__configs instagram hidden">
       <h5> Instagram Settings </h5>
       <div>
-        <input type="checkbox" id="allowed-posts-ig" name="instagram.allowedListEnabled" />
-        <label for="allowed-posts-ig">See posts from allowed list</label>
-      </div>
-
-      <div>
         <input type="checkbox" id="remove-stuff-ig" name="instagram.removeUnnecessary" />
         <label for="remove-stuff-ig">Remove unnecessary buttons</label>
       </div>
@@ -126,10 +112,20 @@
 
       <div>
         <input type="checkbox" id="hide-metrics-ig" name="instagram.hideMetrics" />
-        <label for="hide-metrics-ig">Hide metrics (Likes, repost, send)</label>
+        <label for="hide-metrics-ig">Hide metrics (likes, comments, reposts)</label>
       </div>
 
       <div>
+        <input type="checkbox" id="block-reels-ig" name="instagram.blockReels" />
+        <label for="block-reels-ig">Block reels</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="remove-posts-ig" name="instagram.removePosts" />
+        <label for="remove-posts-ig">Remove posts</label>
+      </div>
+
+      <div data-hidden-when="instagram.removePosts">
         <input type="checkbox" id="posts-limit-ig" name="instagram.postsLimitEnabled" />
         <select name="instagram.postsLimitPeriod" id="limit-period-posts-ig">
           <option value="daily">Daily</option>
@@ -148,6 +144,11 @@
       </div>
 
       <div>
+        <input type="checkbox" id="remove-stories-ig" name="instagram.removeStories" />
+        <label for="remove-stories-ig">Remove stories</label>
+      </div>
+
+      <div data-hidden-when="instagram.removeStories">
         <input type="checkbox" id="story-limit-ig" name="instagram.storyLimitEnabled" />
         <select name="instagram.storyLimitPeriod" id="limit-period-stories-ig">
           <option value="daily">Daily</option>
@@ -170,13 +171,8 @@
     <div class="sm__configs youtube hidden">
       <h5> Youtube Settings </h5>
       <div>
-        <input type="checkbox" id="no-autoscroll-yt" name="youtube.removeAutoscroll" />
-        <label for="no-autoscroll-yt">Remove autoscroll</label>
-      </div>
-
-      <div>
-        <input type="checkbox" id="remove-stuff-yt" name="youtube.removeUnnecessary" />
-        <label for="remove-stuff-yt">Remove unnecessary buttons</label>
+        <input type="checkbox" id="block-shorts-yt" name="youtube.blockShorts" />
+        <label for="block-shorts-yt">Block shorts</label>
       </div>
 
       <div>
@@ -186,10 +182,10 @@
 
       <div>
         <input type="checkbox" id="hide-metrics-yt" name="youtube.hideMetrics" />
-        <label for="hide-metrics-yt">Hide metrics (Likes, share)</label>
+        <label for="hide-metrics-yt">Hide metrics (likes, views, subscribers)</label>
       </div>
 
-      <div>
+      <div data-hidden-when="youtube.blockShorts">
         <input type="checkbox" id="shorts-limit-yt" name="youtube.shortsLimitEnabled" />
         <select name="youtube.shortsLimitPeriod" id="limit-period-shorts-yt">
           <option value="daily">Daily</option>
@@ -211,12 +207,18 @@
     <!-- Footer -->
     <div class="ft__credits-container">
       <div class="separator"></div>
-
+      <div >
+        <p style="margin: 0;"> Not blocking a damn thing?  </p>
+         <a style="margin: 0;" href="https://github.com/AikePetunia/annoying-cat/issues/new" target="_blank"> let me know! </a> 
+      </div>
+      <div>
       <a href="https://github.com/AikePetunia/disturbing-cat" target="_blank">Open Source</a>
-      <h6 class="ft__credits-of-awesome-person">
+       <h6 class="ft__credits-of-awesome-person">
         Developed By <a href="https://aike.tech/" target="_blank">Aike</a>
         <img src="../icons/eye.gif" width="20" height="20" alt="Eye GIF" />
       </h6>
+      </div>
+     
     </div>
 
     <script src="cat-ui.mjs" type="module"></script>

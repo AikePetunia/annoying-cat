@@ -25,7 +25,9 @@
         "*://*.twitter.com/*",
         "*://*.x.com/*",
         "*://*.youtube.com/*",
-        "*://*.youtu.be/*"
+        "*://*.youtu.be/*",
+        "*://*.reddit.com/*",
+        "*://*.redd.it/*"
       ],
       "js": ["content/entry.js"],
       "run_at": "document_start"
@@ -33,7 +35,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["content/*.js", "content/utils/*.js"],
+      "resources": ["content/*.js", "content/utils/*.js", "icons/disturbing-cat-32-*.avif"],
       "matches": ["*://*/*"]
     }
   ],

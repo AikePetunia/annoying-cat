@@ -1,4 +1,4 @@
-import { kwLogic, renderKeywords } from "./js/cat-kw-logic.mjs";
+import { kwLogic, renderKeywords, restoreKeywordDraft } from "./js/cat-kw-logic.mjs";
 import { cache, loadCache, saveCache, getVal, setVal } from "./js/cat-cache.mjs";
 
 async function getActiveTab() {
@@ -31,6 +31,7 @@ const element = {
   igSettings: document.querySelector(".sm__configs.instagram"),
   twSettings: document.querySelector(".sm__configs.twitter"),
   ytSettings: document.querySelector(".sm__configs.youtube"),
+  blockNotHere: document.querySelector(".g__block-not-here"),
 };
 
 element.extensionToggler.addEventListener("click", () => {
@@ -67,6 +68,11 @@ async function handleToggler() {
           executeYoutubeUI();
           break;
 
+        // no per-platform settings yet: only global ones, so the block can be turned off from here
+        case socialMedia.includes("reddit.com") ||
+          socialMedia.includes("redd.it"):
+          break;
+
         default:
           executeDefault();
       }
@@ -79,6 +85,8 @@ async function handleToggler() {
 
 function executeYoutubeUI() {
   element.ytSettings.classList.remove("hidden");
+  // the full block only covers reddit / instagram / twitter
+  element.blockNotHere.classList.remove("hidden");
   element.mainIcon.src = socialMediaIcon.ytIconPath;
 }
 
@@ -98,12 +106,14 @@ function executeDefault() {
   element.kwContainerCuzImLazy.classList.add("hidden");
   element.mainIcon.src = socialMediaIcon.defaultWhite;
   element.anySettings.forEach((el) => el.classList.add("hidden"));
+  element.blockNotHere.classList.add("hidden");
 }
 
 kwLogic();
 
 async function initCache() {
   await loadCache();
+  await restoreKeywordDraft();
 
   extensionOn = cache.enabled;
 
@@ -113,7 +123,16 @@ async function initCache() {
 
 initCache();
 
+// rows with data-hidden-when="path" disappear while that setting is on
+// (e.g. no point in a stories limit when stories are removed)
+function syncDependentRows() {
+  document.querySelectorAll("[data-hidden-when]").forEach((row) => {
+    row.classList.toggle("hidden", Boolean(getVal(cache, row.dataset.hiddenWhen)));
+  });
+}
+
 function renderUI() {
+  syncDependentRows();
   const inputs = document.querySelectorAll("input[name], select[name]");
 
   inputs.forEach((input) => {
@@ -141,13 +160,15 @@ document.addEventListener("change", async (e) => {
   if (input.type === "checkbox") {
     newValue = input.checked;
   } else if (input.dataset.min !== undefined) {
-    newValue = Number(input.value) || 0;
+    // empty = no limit (content scripts treat it as disabled); never silently save 0, which hides everything
+    newValue = input.value === "" ? "" : Number(input.value);
   } else {
     newValue = input.value;
   }
 
   // set the new value on the catSettings cache
   setVal(cache, path, newValue);
+  syncDependentRows();
 
   await saveCache();
 });

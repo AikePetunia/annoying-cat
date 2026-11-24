@@ -1,17 +1,16 @@
-// catSettings cache, shared by every popup module
-
 const defaultSettings = {
   enabled: true, //  #global-extension-enable
+  blocksocialmedia: false,
   grayscale: false,
   suggestions: true,
   focus: false,
   blacklistEnabled: false,
+  keywordsEnabled: true, // #global-keywords-enabled
   keywords: [], // global: applies to every social media
 
   twitter: {
     allowedListEnabled: false, // #allowed-posts-tw
     allowedList: [], // Datos que cargarás aparte
-    allowKeywords: true, // #keywords-tw
     onlyFollowing: true, // #only-following-tw
     removeUnnecessary: true, // #remove-stuff-tw
     removeMetrics: true,
@@ -26,6 +25,9 @@ const defaultSettings = {
     removeUnnecessary: true, // #remove-stuff-ig
     hideComments: true, // #hide-comments-ig
     hideMetrics: true, // #hide-metrics-ig
+    blockReels: false, // #block-reels-ig
+    removePosts: false, // #remove-posts-ig
+    removeStories: false, // #remove-stories-ig
     postsLimitEnabled: true, // #posts-limit-ig
     postsLimitPeriod: "hourly", // #limit-period-posts-ig
     postsLimit: 25,
@@ -35,8 +37,7 @@ const defaultSettings = {
   },
 
   youtube: {
-    removeAutoscroll: true, // #no-autoscroll-yt
-    removeUnnecessary: true, // #remove-stuff-yt
+    blockShorts: false, // #block-shorts-yt
     hideComments: true, // #hide-comments-yt
     hideMetrics: true, // #hide-metrics-yt
     shortsLimitEnabled: true, // #shorts-limit-yt
@@ -53,6 +54,7 @@ export async function loadCache() {
   if (result.catSettings) {
     cache = result.catSettings;
     cache.keywords ??= []; // settings saved before keywords existed
+    cache.keywordsEnabled ??= true;
   } else {
     await saveCache();
   }

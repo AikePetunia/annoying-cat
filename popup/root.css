@@ -51,7 +51,7 @@ h6 {
   font-style: normal;
 }
 
-span, label,
+span, label, 
 p {
   font-family: var(--font-body);
   font-optical-sizing: auto;
@@ -61,25 +61,15 @@ p {
 }
 
 a {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   color: var(--primary);
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 400;
   font-style: normal;
 }
 
-.hidden{
-  opacity: 0;
-  width: 0;
-  height: 0;
-  margin: 0 !important;
-}
-
-.hidden * {
-    opacity: 0;
-  width: 0;
-  height: 0;
-  margin: 0 !important;
+.hidden {
+  display: none !important;
 }
 
 ::selection {
