@@ -23,7 +23,7 @@ export function createLimitStore(storageKey, onChange) {
     load() {
       if (loading) return loading;
 
-      loading = browser.storage.local.get(storageKey).thenresult) => {
+      loading = browser.storage.local.get(storageKey).then((result) => {
         if (result?.[storageKey]) state = result[storageKey];
         loaded = true;
         onChange();
